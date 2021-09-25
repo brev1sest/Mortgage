@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<title>Mortgage</title>
+</head>
+<body>
+<script>
+        function deletebank(){
+            xhr = new XMLHttpRequest()
+            id = document.getElementById('bank_id').value
+            xhr.open("DELETE", '/banks/delete_bank/' + id, true)
+            xhr.send()
+        }
+    function addBank(){
+        var xhr = new XMLHttpRequest()
+	var id = document.getElementById('bank_id').value
+        var name = document.getElementById('name').value
+        var interest_rate = document.getElementById('interest_rate').value
+        var maximum_loan = document.getElementById('maximum_loan').value
+        var minimum_down_payment = document.getElementById('minimum_down_payment').value
+        var loan_term = document.getElementById('loan_term').value
+        var body = JSON.stringify({
+	    'id':id,	
+            'name' : name,
+            'interest_rate' : interest_rate,
+            'maximum_loan' : maximum_loan,
+            'minimum_down_payment' : minimum_down_payment,
+            'loan_term' : loan_term
+        })
+        console.log(body)
+        xhr.open("POST", '/banks/add_bank', true)
+        xhr.setRequestHeader("Content-type", "application/json")
+        xhr.send(body)
+    }
+
+    function showdata(){
+            fetch('/banks/get_banks')
+            .then(function (response){
+                console.log(response)
+                return response.json()
+            })
+            .then(function (data){
+                 (data)
+                //console.log(data)
+            })
+     }
+     function editbank(){
+                var xhr = new XMLHttpRequest()
+                var id = document.getElementById('bank_id').value
+                var name = document.getElementById('name').value
+                var interest_rate = document.getElementById('interest_rate').value
+                var maximum_loan = document.getElementById('maximum_loan').value
+                var minimum_down_payment = document.getElementById('minimum_down_payment').value
+                var loan_term = document.getElementById('loan_term').value
+                var body = JSON.stringify({
+                    'name' : name,
+                    'interest_rate' : parseInt(interest_rate),
+                    'maximum_loan' : parseInt(maximum_loan),
+                    'minimum_down_payment' : parseInt(minimum_down_payment),
+                    'loan_term' : parseInt(loan_term)
+                })
+                xhr.open("PUT", "banks/update_bank/" + id, true)
+                xhr.setRequestHeader("Content-type", "application/json")
+                xhr.send(body)
+              }
+</script>
+<left><h3>Adding a Bank</h3></left>
+<form action="javascript:addBank()">
+    <ul>
+	<li><label for="name">Bank ID:</label><input id="bank_id" type="number" placeholder="Banks ID"></li>
+        <li>
+            <label for="name">Name:</label>
+            <input type = "text" id = "name" name="name">
+        </li>
+        <li>
+            <label for="interest_rate">Interest Rate:</label>
+            <input type="number" name="interest_rate" id="interest_rate">
+        </li>
+        <li>
+            <label for="maximum_loan">Maximum Loan:</label>
+            <input type="number" name="maximum_loan" id="maximum_loan">
+        </li>
+        <li>
+            <label for="minimum_down_payment">Minimum Down Payment</label>
+            <input type="number" name="minimum_down_payment" id="minimum_down_payment">
+        </li>
+        <li>
+            <label for="loan_term">Loan Term:</label>
+            <input type="number" name="loan_term" id="loan_term">
+        </li>
+        <li class="button">
+            <button type="submit">Add a Bank!</button>
+        </li>
+    </ul>
+</form>
+<p></p>
+<left><h3>Showing a Data</h3></left>
+<form action="javascript:showdata()">
+
+   <li class="button">
+   <button type="submit">Show The Banks!</button>
+   </li>
+
+</form>
+<p></p>
+<left><h3>Deleting a Bank</h3></left>
+<form action="javascript:deletebank()">
+
+   <input id="bank_id" type="number" placeholder="Banks ID">
+   <li class="button">
+   <button type="submit">Delete a Bank!</button>
+   </li>
+
+</form>
+<p></p>
+<left><h3>Editing the Bank</h3></left>
+<form action="javascript:editbank()">
+
+  		<input id="bank_id" type="number" placeholder="Banks ID">
+  		<li>
+                    <label for="name">New Name:</label>
+                    <input type = "text" id = "name" name="name">
+                </li>
+                <li>
+                    <label for="interest_rate">New Interest Rate(%):</label>
+                    <input type="number" step="0.01" name="interest_rate" id="interest_rate">
+                </li>
+                <li>
+                    <label for="maximum_loan">New Maximum Loan:</label>
+                    <input type="number" name="maximum_loan" id="maximum_loan">
+                </li>
+                <li>
+                    <label for="minimum_down_payment">New Minimum Down Payment(%)</label>
+                    <input type="number" name="minimum_down_payment" id="minimum_down_payment" step="0.01">
+                </li>
+                <li>
+                    <label for="loan_term">New Loan Term:</label>
+                    <input type="number" name="loan_term" id="loan_term">
+                </li>
+                <li class="button">
+                    <button type="submit">Edit a Bank!</button>
+               </li>
+
+</form>
+<form action="javascript:calculate()">
+    <input id="bankName" placeholder="Banks Name">
+    <input id="initial_loan" type = "number" placeholder="Initial Loan">
+    <input id="down_payment" type="number" placeholder="Down Payment">
+    <button type="submit">Calculate</button>
+</form>
+<div id = "result">
+    <h3 id = "monthly_payment">Monthly Payment: 0</h3>
+ </div>
+</body>
+</html>
