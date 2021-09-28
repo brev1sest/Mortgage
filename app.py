@@ -75,9 +75,9 @@ def index():
 
 @app.route('/banks/<int:bank_id>', methods=['CALCULATE'])
 def calculate(bank_id):
-        p = banks[bank_id]['maxium_loan']
-        r = banks[bank_id]['interest_rate']
-        n = banks[bank_id]['loan_term']
+        p = request.json['maxium_loan']
+        r = request.json['interest_rate']
+        n = request.json['loan_term']
         t = r/12
         return p*t*((1+t)**n)/((1+t)**n - 1)
 
