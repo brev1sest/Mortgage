@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, render_template
-import pysqlite3
+import sqlite3
 
 db = sqlite.connect('server.db')
 sql = db.cursor()
