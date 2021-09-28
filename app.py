@@ -26,10 +26,10 @@ def get_list():
     db_banks = sql.fetchall()
     banks = []
     keys = ['id', 'name', 'interest_rate', 'maximum_loan', 'minimum_down_payment', 'loan_term']
-    for val in db_banks:
+    for value in db_banks:
         bank = {}
         for i in range(len(val)):
-            bank[keys[i]] = val[i]]
+            bank[keys[i]] = value[i]]
         banks.append(bank)
     return jsonify(banks)
 
