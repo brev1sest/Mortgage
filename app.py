@@ -29,7 +29,7 @@ def get_list():
     for val in db_banks:
         bank = {}
         for i in range(len(val)):
-            bank[keys[i]] = val[i]
+            bank[keys[i]] = val[i]]
         banks.append(bank)
     return jsonify(banks)
 
